@@ -1,0 +1,256 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(20, 14.3%, 4.1%);
+  --muted: hsl(60, 4.8%, 95.9%);
+  --muted-foreground: hsl(25, 5.3%, 44.7%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(20, 14.3%, 4.1%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(20, 14.3%, 4.1%);
+  --border: hsl(20, 5.9%, 90%);
+  --input: hsl(20, 5.9%, 90%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(60, 4.8%, 95.9%);
+  --secondary-foreground: hsl(24, 9.8%, 10%);
+  --accent: hsl(60, 4.8%, 95.9%);
+  --accent-foreground: hsl(24, 9.8%, 10%);
+  --destructive: hsl(0, 84.2%, 60.2%);
+  --destructive-foreground: hsl(60, 9.1%, 97.8%);
+  --ring: hsl(20, 14.3%, 4.1%);
+  --radius: 0.5rem;
+  
+  /* JewelryAI Custom Colors */
+  --navy: hsl(217, 33%, 17%);
+  --navy-light: hsl(215, 25%, 27%);
+  --jewelry-gold: hsl(43, 91%, 47%);
+  --jewelry-purple: hsl(258, 71%, 65%);
+  --jewelry-blue: hsl(238, 83%, 63%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+@layer utilities {
+  .bg-navy {
+    background-color: var(--navy);
+  }
+  
+  .bg-navy-light {
+    background-color: var(--navy-light);
+  }
+  
+  .bg-jewelry-gold {
+    background-color: var(--jewelry-gold);
+  }
+  
+  .bg-jewelry-purple {
+    background-color: var(--jewelry-purple);
+  }
+  
+  .bg-jewelry-blue {
+    background-color: var(--jewelry-blue);
+  }
+  
+  .text-navy {
+    color: var(--navy);
+  }
+  
+  .text-jewelry-gold {
+    color: var(--jewelry-gold);
+  }
+  
+  .text-jewelry-purple {
+    color: var(--jewelry-purple);
+  }
+  
+  .text-jewelry-blue {
+    color: var(--jewelry-blue);
+  }
+  
+  .border-navy {
+    border-color: var(--navy);
+  }
+  
+  .shadow-card {
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  }
+  
+  .shadow-card-hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+  
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.95);
+  }
+}
+
+/* Progress ring animations */
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+  transition: stroke-dasharray 0.35s;
+  transform-origin: 50% 50%;
+}
+
+/* Smooth transitions for interactive elements */
+.transition-all {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(60, 4.8%, 95.9%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(25, 5.3%, 44.7%);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(20, 14.3%, 4.1%);
+}
+
+/* Custom animations for client checkboxes */
+@keyframes checkmark {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes checkbox-check {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes confetti {
+  0% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(var(--random-y, -50px)) translateX(var(--random-x, 30px)) rotate(var(--random-rotation, 360deg)) scale(0.2);
+  }
+}
+
+/* Custom browser tab styling */
+.browser-tab {
+  position: relative;
+  background: linear-gradient(to bottom, #f1f5f9, #e2e8f0);
+  border: 2px solid #cbd5e1;
+  border-bottom: 2px solid #cbd5e1;
+  clip-path: polygon(12px 100%, 0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px, calc(100% - 12px) 100%);
+  transition: all 0.3s ease;
+}
+
+.browser-tab.active {
+  background: white;
+  border-bottom-color: white;
+  z-index: 20;
+  margin-bottom: -2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.browser-tab:not(.active) {
+  margin-bottom: 2px;
+  z-index: 10;
+}
+
+.browser-tab:not(.active):hover {
+  background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+}
+
+/* Browser tab trapezoid shape */
+.tab-trapezoid {
+  position: relative;
+  border-radius: 8px 8px 0 0;
+}
+
+.tab-trapezoid::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -8px;
+  width: 8px;
+  height: 100%;
+  background: inherit;
+  border-radius: 8px 0 0 0;
+  transform: skew(-15deg);
+  z-index: -1;
+}
+
+.tab-trapezoid::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -8px;
+  width: 8px;
+  height: 100%;
+  background: inherit;
+  border-radius: 0 8px 0 0;
+  transform: skew(15deg);
+  z-index: -1;
+}
