@@ -89,17 +89,23 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async getClients(): Promise<ClientWithTeam[]> {
-    const result = await db.query.clients.findMany({
-      with: {
-        assignments: {
-          with: {
-            teamMember: true,
+    try {
+      const result = await db.query.clients.findMany({
+        with: {
+          assignments: {
+            with: {
+              teamMember: true,
+            },
           },
         },
-      },
-      orderBy: [desc(clients.lastActivity)],
-    });
-    return result;
+        orderBy: [desc(clients.lastActivity)],
+      });
+      return result;
+    } catch (error) {
+      console.error('Error fetching clients:', error);
+      // Return empty array as fallback
+      return [];
+    }
   }
 
   async getClient(id: number): Promise<ClientWithTeam | undefined> {
@@ -226,31 +232,48 @@ export class DatabaseStorage implements IStorage {
     monthlyRevenue: number;
     teamUtilization: number;
   }> {
-    const allClients = await db.select().from(clients);
-    const activeProjects = allClients.filter(c => 
-      c.projectStatus === "In Progress" || c.projectStatus === "Planning" || c.projectStatus === "Testing"
-    );
-    
-    const monthlyRevenue = allClients.reduce((sum, client) => {
-      return sum + parseFloat(client.amountPaid.toString());
-    }, 0);
+    try {
+      const allClients = await db.select().from(clients);
+      const activeProjects = allClients.filter(c => 
+        c.projectStatus === "In Progress" || c.projectStatus === "Planning" || c.projectStatus === "Testing"
+      );
+      
+      const monthlyRevenue = allClients.reduce((sum, client) => {
+        return sum + parseFloat(client.amountPaid.toString());
+      }, 0);
 
-    return {
-      totalClients: allClients.length,
-      activeProjects: activeProjects.length,
-      monthlyRevenue,
-      teamUtilization: 87, // This would be calculated based on actual workload data
-    };
+      return {
+        totalClients: allClients.length,
+        activeProjects: activeProjects.length,
+        monthlyRevenue,
+        teamUtilization: 87, // This would be calculated based on actual workload data
+      };
+    } catch (error) {
+      console.error('Error fetching dashboard metrics:', error);
+      // Return default metrics as fallback
+      return {
+        totalClients: 0,
+        activeProjects: 0,
+        monthlyRevenue: 0,
+        teamUtilization: 0,
+      };
+    }
   }
 
   async getTodayImageCount(): Promise<number> {
-    const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
-    const [result] = await db
-      .select()
-      .from(dailyImageCount)
-      .where(eq(dailyImageCount.date, today));
-    
-    return result?.imageCount || 0;
+    try {
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+      const [result] = await db
+        .select()
+        .from(dailyImageCount)
+        .where(eq(dailyImageCount.date, today));
+      
+      return result?.imageCount || 0;
+    } catch (error) {
+      console.error('Error fetching today\'s image count:', error);
+      // Return 0 as fallback if database is unavailable
+      return 0;
+    }
   }
 
   async updateTodayImageCount(count: number): Promise<DailyImageCount> {
